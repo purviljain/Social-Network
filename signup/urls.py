@@ -6,5 +6,5 @@ from . import views
 app_name = "signup"
 
 urlpatterns = [
-    url(r'^profile/', views.profile, name="profile"),
+    
     ]

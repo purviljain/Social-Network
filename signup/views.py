@@ -17,13 +17,13 @@ def login_view(request):
         password = login_form.cleaned_data.get('password')
         user = authenticate(username=username,password=password)
         login(request, authenticate(username=username, password=password))
-
+        return render(request, "signin/profile.html", {'username':username})
     return render(request,'registration/login.html',{'login_form':login_form})
 
 def logout_view(request):
     logout(request)
     login_form = UserLoginForm(request.POST or None)
-    return render(request, "registration/login.html", {'login_form':login_form})
+    return redirect("/login", {'login_form':login_form})
 
 def register(request):
     form = Register(request.POST or None)

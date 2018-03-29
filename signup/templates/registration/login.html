@@ -1,6 +1,6 @@
 <h1>Login</h1>
 
-<form method="POST" action="{% url 'signup:profile' %}}" enctype="multipart/form-data">
+<form method="POST" action="" enctype="multipart/form-data">
   {% csrf_token %}
   {{ login_form.as_p }}
   <button type="submit" value='login'>Login</button>

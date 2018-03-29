@@ -23,8 +23,9 @@ urlpatterns = [
     # url(r'^sign_in/', include('sign_in.urls', namespace="sign_in")),
     url(r'^signup/', include('signup.urls', namespace="signup")),
     url(r'^register/', register, name="register"),
+    url(r'^profile/', profile, name="profile"),
     url(r'^login/$', login_view, name='login'),
     url(r'^logout/$', logout_view, name='logout'),
-    url(r'^$', views.home, name='home'),
+    #url(r'^$', views.home, name='home'),
     # url(r'^forum/', include('forum.urls', namespace="forum")),
 ]
