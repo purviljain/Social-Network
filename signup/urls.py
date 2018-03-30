@@ -7,4 +7,4 @@ app_name = "signup"
 
 urlpatterns = [
     
-    ]
+]

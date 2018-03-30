@@ -1,3 +1,5 @@
+{% extends "layout.html" %}
+{% block content %}
 <h2>Sign Up</h2>
 
 <form method="post" enctype="multipart/form-data">
@@ -6,3 +8,7 @@
   {{ profile_form.as_p }}
   <button type="submit">Sign Up</button>
 </form>
+<br>
+<p><strong>-- OR --</strong></p>
+<a href="{% url 'social:begin' 'google-oauth2' %}">Login with Google</a><br>
+{% endblock content %}
