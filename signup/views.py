@@ -27,6 +27,7 @@ def logout_view(request):
 
 def register(request):
     form = Register(request.POST or None)
+    profile_form = ProfileInfo(request.POST or None)
     if form.is_valid():
         user = form.save(commit=False)
         password = form.cleaned_data.get('password')
@@ -35,7 +36,7 @@ def register(request):
         user_auth = authenticate(username=user.username,password=password)
         login(request, user_auth)
         return redirect("/profile")
-    context = {"form":form}
+    context = {"form":form, "profile_form":profile_form}
     return render(request, "signin/register.html", context)
 
 def profile(request):
