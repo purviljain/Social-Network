@@ -1,7 +1,11 @@
 {% extends "layout.html" %}
 {% block content %}
-<h1>Login</h1>
 
+<h1>Login</h1>
+<!-- {{message}}
+{% if message %}
+<div class="text-danger">Login first </div><br>
+{% endif %} -->
 <form method="POST" action="" enctype="multipart/form-data">
   {% csrf_token %}
   {{ login_form.as_p }}
