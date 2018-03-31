@@ -1,0 +1,46 @@
+
+<!doctype html>
+<head>
+  <meta charset="UTF-8">
+  <title>Home</title>
+</head>
+{% block app %}
+{% if user.is_authenticated %}
+  <a href="{% url 'app:create' %}"><button>POST</button></a>
+
+  {% if app %}
+    {% for i in app %}
+      <hr>
+      <b>{{ i.post_pic }}</b><br>
+      {{ i.post_pic.url }}<br>
+      <img scr="{{ i.post_pic.url }}" height="100" width="100"/> <br>
+      <i><b>Caption:</b> {{ i.caption }}</i><br>
+      <i><b>User:</b> {{ i.user }}</i><br>
+      <i><b>Date:</b> {{ i.date_created }}</i>
+      {% if i.user == user %}
+        <a href="{% url 'app:delete' i.id %}"><button>Delete</button></a>
+      {% endif %}
+      <a href="{% url 'app:comment' i.id %}"><button>Comment</button></a><br>
+        <button type="button" class="btn btn-link" data-toggle="collapse" data-target="#{{ i.id }}" >{{ i.comments.count }} Comments</button>
+        <div id="{{ i.id }}" class="collapse">
+          <div id="comment" class="container">
+            {% for c in i.comments.all %}
+                <hr>
+                <i>User: {{ c.user }}</i>
+                <p>TEXT: {{ c.comment }}</p>
+                {% if c.user == user %}
+                  <a href="{% url 'app:comment_delete' c.id %}">Delete</a>
+                {% endif %}
+                <hr>
+            {% endfor %}
+          </div>
+        </div>
+      <hr>
+    {% endfor %}
+  {% else %}
+    <b>NO POSTS!</b>
+  {% endif %}
+{% else %}
+  <a href="/login/">Login to continue</a>
+{% endif %}
+{% endblock %}

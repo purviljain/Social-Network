@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'signup',
     'social_django',
+    'app',
 ]
 
 MIDDLEWARE = [
@@ -79,7 +80,7 @@ AUTHENTICATION_BACKENDS = (
  'social_core.backends.google.GoogleOAuth2',  # for Google authentication
  'social_core.backends.github.GithubOAuth2',  # for Github authentication
  'social_core.backends.facebook.FacebookOAuth2',  # for Facebook authentication
- 
+
  'django.contrib.auth.backends.ModelBackend',
 )
 
@@ -144,4 +145,3 @@ LOGOUT_REDIRECT_URL = '/login/'
 
 SOCIAL_AUTH_GOOGLE_OAUTH2_KEY ='213632558604-mpcfi11vgof9jfu2uar0d106evn7o16v.apps.googleusercontent.com'
 SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = 'wFNk7EY0Zwn9aKXvyIih5-9o'
- 
