@@ -6,11 +6,11 @@ from signup.models import Profile
 class Post(models.Model):
     user = models.ForeignKey("auth.User", on_delete=models.CASCADE)
     caption = models.CharField(max_length=50)
-    post_pic = models.FileField(null=True, blank=True)
+    post_pic = models.ImageField(upload_to="media",null=True, blank=True)
     date_created = models.DateTimeField(default=timezone.now)
 
     def __str__(self):
-        return str(self.id)
+        return str(self.user)
 
     class Meta():
         ordering = ['-date_created']
@@ -27,14 +27,9 @@ class Comment(models.Model):
     class Meta():
         ordering = ["-date_created"]
 
-# class Like(models.Model):
-#     post = models.ForeignKey("app.Post", related_name="comments")
-#     user = models.ForeignKey("auth.User")
-#     like = models.
-#     date_created = models.DateTimeField(default=timezone.now)
-#
-#     def __str__(self):
-#         return self.comment
-#
-#     class Meta():
-#         ordering = ["-date_created"]
+class Like(models.Model):
+    post = models.ForeignKey("app.Post", related_name="likes", on_delete=models.CASCADE)
+    user = models.ForeignKey("auth.User", on_delete=models.CASCADE)
+
+    def __str__(self):
+        return str(self.id)

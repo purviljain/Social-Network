@@ -1,4 +1,4 @@
-
+ {% load staticfiles %}
 <!doctype html>
 <head>
   <meta charset="UTF-8">
@@ -10,18 +10,36 @@
 
   {% if app %}
     {% for i in app %}
+
       <hr>
-      <b>{{ i.post_pic }}</b><br>
-      {{ i.post_pic.url }}<br>
+      <!-- <h4>Like ka user is {{like.user}}</h4><br>
+      <h4>Request user is {{request.user}}</h4><br>
+      <h4>like ka poster {{like.post}}</h4><br>
+      <h4>post {{i}}</h4><br> -->
+      {% if i.post_pic %}
       <img scr="{{ i.post_pic.url }}" height="100" width="100"/> <br>
+      {% endif %}
       <i><b>Caption:</b> {{ i.caption }}</i><br>
       <i><b>User:</b> {{ i.user }}</i><br>
       <i><b>Date:</b> {{ i.date_created }}</i>
       {% if i.user == user %}
         <a href="{% url 'app:delete' i.id %}"><button>Delete</button></a>
       {% endif %}
-      <a href="{% url 'app:comment' i.id %}"><button>Comment</button></a><br>
-        <button type="button" class="btn btn-link" data-toggle="collapse" data-target="#{{ i.id }}" >{{ i.comments.count }} Comments</button>
+      <a href="{% url 'app:comment' i.id %}"><button>Comment</button></a>
+      <form method="POST" action="{% url 'app:like' i.id %}">
+        {% csrf_token %}
+        <button type="submit">Like</button>
+        {% for l in i.likes.all %}
+          {% if l.user == request.user %}
+
+          {% endif %}
+        {% endfor %}
+
+
+      </form>
+      <button type="button" class="btn btn-link" data-toggle="collapse" data-target="#{{ i.id }}" >{{ i.likes.count }} Likes</button>
+
+      <button type="submit" class="btn btn-link" data-toggle="collapse" data-target="#{{ i.id }}" >{{ i.comments.count }} Comments</button>
         <div id="{{ i.id }}" class="collapse">
           <div id="comment" class="container">
             {% for c in i.comments.all %}

@@ -2,7 +2,7 @@
 <title>Delete</title>
 
 {% block app %}
-<form action="" method="post">
+<form action="{% url 'app:create' %}" method="post">
   {% csrf_token %}
   <p>Are you sure you want to delete the <b>POST</b> "{{ object }}"?</p>
   <input type="submit" value="Confirm" />
