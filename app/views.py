@@ -38,7 +38,8 @@ def PostDelete(request,pk):
         post = Post.objects.get(id=pk)
         if request.user == post.user:
             post.delete()
-            return render(request,'app/delete.html',{"object":post.caption})
+            app = Post.objects.all()
+            return render(request,'app/index.html',{"app":app})
         else:
             return render(request, 'app/not_allowed.html', {"txt": "You are not allowed to delete this."})
     except Exception as e:
@@ -60,19 +61,29 @@ def comment_to_post(request, pk):
         form = CommentForm()
     return render(request, 'app/comment_create.html', {'form': form})
 
-
-class CommentDelete(LoginRequiredMixin, UserOwnerMixin, DeleteView):
-    model = Comment
-    template_name = "app/comm_delete.html"
-    success_url = reverse_lazy("app:list")
-
-    def delete(self, request, *args, **kwargs):
-        self.object = self.get_object()
-        if self.object.user == request.user:
-            self.object.delete()
-            return HttpResponseRedirect(self.get_success_url())
+@login_required(login_url='forum:login')
+def CommentDelete(request,pk):
+    try:
+        comment = Comment.objects.get(id=pk)
+        if request.user == comment.user:
+            comment.delete()
+            app = Post.objects.all()
+            return render(request,'app/index.html',{"app":app})
         else:
             return render(request, 'app/not_allowed.html', {"txt": "You are not allowed to delete this."})
+    except Exception as e:
+        print (e)
+        return render(request, 'app/not_allowed.html', {"txt": "No such comment exists."})
+    # model = Comment
+    # template_name = "app/comm_delete.html"
+    # success_url = reverse_lazy("app:list")
+    # def delete(self, request, *args, **kwargs):
+    #     self.object = self.get_object()
+    #     if self.object.user == request.user:
+    #         self.object.delete()
+    #         return HttpResponseRedirect(self.get_success_url())
+    #     else:
+    #         return render(request, 'app/not_allowed.html', {"txt": "You are not allowed to delete this."})
 
 @login_required(login_url='forum:login')
 def like(request, pk):
@@ -81,9 +92,9 @@ def like(request, pk):
         user = request.user
         like = Like.objects.filter(user=user, post=post)
         if like.exists():
-            like.delete()
+            # like.delete()
             app = Post.objects.all()
-            return render(request,'app/index.html', {"pk":pk,"flag":"1",'app':app,"like":like})
+            return render(request,'app/index.html', {"pk":pk,'app':app,"like":like})
         like = Like.objects.create(user=user, post=post)
         like.save()
         like = Like.objects.get(user=user, post=post)
