@@ -2,6 +2,7 @@
 {% block content %}
 {% if user.is_authenticated %}
 			<p class="display-4">Hello, {{ user.username }}</p>
+			<img src="/media/picture/dice1.png" width="250"/>
 	{% else %}
 		<a class="lead" href="{% url 'login' %}">Log in</a>
     {% endif %}

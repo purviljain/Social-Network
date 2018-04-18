@@ -6,7 +6,7 @@ from signup.models import Profile
 class Post(models.Model):
     user = models.ForeignKey("auth.User", on_delete=models.CASCADE)
     caption = models.CharField(max_length=50)
-    post_pic = models.ImageField(upload_to="media",null=True, blank=True)
+    post_pic = models.ImageField(upload_to="picture",null=True, blank=True)
     date_created = models.DateTimeField(default=timezone.now)
 
     def __str__(self):
