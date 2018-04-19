@@ -1,0 +1,8 @@
+{% extends "base.html" %}
+{% block content %}
+  {% for i in all_users %}
+    {% if i.is_active %}
+        <li><a href="{% url 'userprofile' i.id %}">{{ i }}</a></li> <br>
+    {% endif %}
+  {% endfor %}
+{% endblock content %}

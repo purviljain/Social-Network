@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.conf.urls import url,include
 from signup.views import login_view, logout_view, register, profile
-from app.views import PostList
+from app.views import PostList,Users,UserProfile,Follow_view
 from . import views,settings
 from django.conf import settings
 from django.conf.urls.static import static
@@ -15,11 +15,14 @@ urlpatterns = [
     # url(r'^signup/', include('signup.urls', namespace="signup")),
     url(r'^register/', register, name="register"),
     url(r'^profile/', profile, name="profile"),
+    url(r'^users/', Users, name="users"),
+    url(r'^user/(?P<pk>\d+)/$', UserProfile, name="userprofile"),
+    url(r'^follow/(?P<pk>\d+)/$', Follow_view, name="follow"),
     url(r'^app/', include('app.urls', namespace="app")),
     url(r'^auth/', include('social_django.urls', namespace='social')),
     url(r'^login/$', login_view, name='login'),
     url(r'^logout/$', logout_view, name='logout'),
-    url(r'^$', PostList.as_view(), name='home'),
+    url(r'^$', PostList, name='home'),
     # url(r'^media/(?P<path>.*)$', 'django.views.static.serve', {
     #         'document_root': settings.MEDIA_ROOT,
     #         }),

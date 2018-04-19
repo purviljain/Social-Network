@@ -33,3 +33,10 @@ class Like(models.Model):
 
     def __str__(self):
         return str(self.id)
+
+class Follower(models.Model):
+    user = models.ForeignKey("auth.User", related_name="mainuser", on_delete=models.CASCADE)
+    followers = models.ManyToManyField("auth.User", related_name="followers")
+
+    def __str__(self):
+        return str(self.user)
