@@ -1,5 +1,4 @@
-{% extends "layout.html" %}
-{% block content %}
+<div style="text-align:center" >
 <h2>Sign Up</h2>
 
 <form method="post" enctype="multipart/form-data">
@@ -11,4 +10,4 @@
 <br>
 <p><strong>-- OR --</strong></p>
 <a href="{% url 'social:begin' 'google-oauth2' %}">Login with Google</a><br>
-{% endblock content %}
+</div>

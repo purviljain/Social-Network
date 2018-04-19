@@ -1,13 +1,16 @@
- {% load staticfiles %}
+{% extends "layout.html" %}
+{% block content %}
+{% load staticfiles %}
 <!doctype html>
 <head>
   <meta charset="UTF-8">
   <title>Home</title>
 </head>
+
 {% block app %}
 {% if user.is_authenticated %}
-  <a href="{% url 'app:create' %}"><button>POST</button></a>
-
+  <div style="text-align:right"><a  href="{% url 'app:create' %}"><button>POST</button></a></div>
+<div style="text-align:center" >
   {% if app %}
     {% for i in app %}
       <hr>
@@ -16,7 +19,7 @@
       {% endif %}
       <i><b>Caption:</b> {{ i.caption }}</i><br>
       <i><b>User:</b> {{ i.user }}</i><br>
-      <i><b>Date:</b> {{ i.date_created }}</i>
+      <i><b>Date:</b> {{ i.date_created }}</i><br>
       {% if i.user == user %}
         <a href="{% url 'app:delete' i.id %}"><button>Delete</button></a>
       {% endif %}
@@ -26,15 +29,11 @@
         <button type="submit">Like</button>
         {% for l in i.likes.all %}
           {% if l.user == request.user %}
-
           {% endif %}
         {% endfor %}
-
-
       </form>
-      <button type="button" class="btn btn-link" data-toggle="collapse" data-target="#{{ i.id }}" >{{ i.likes.count }} Likes</button>
-
-      <button type="submit" class="btn btn-link" data-toggle="collapse" data-target="#{{ i.id }}" >{{ i.comments.count }} Comments</button>
+      <input type="button" class="btn btn-link" data-target="#{{ i.id }}" >Likes {{ i.likes.count }} </input>
+      <button type="submit" class="btn btn-link" data-toggle="collapse" data-target="#{{ i.id }}" >Comments {{ i.comments.count }}</button>
         <div id="{{ i.id }}" class="collapse">
           <div id="comment" class="container">
             {% for c in i.comments.all %}
@@ -56,4 +55,6 @@
 {% else %}
   <a href="/login/">Login to continue</a>
 {% endif %}
+</div>
 {% endblock %}
+{% endblock content %}

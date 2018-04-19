@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect
 from .forms import Register, ProfileInfo, UserLoginForm
+from app.models import Post
 from django.contrib.auth import (
         authenticate,
         login,
@@ -17,7 +18,8 @@ def login_view(request):
         password = login_form.cleaned_data.get('password')
         user = authenticate(username=username,password=password)
         login(request, authenticate(username=username, password=password))
-        return render(request, "signin/profile.html", {'username':username})
+        post = Post.objects.all()
+        return render(request, "signin/profile.html", {'username':username,'post':post})
     return render(request,'registration/login.html',{'login_form':login_form})
 
 def logout_view(request):
@@ -44,7 +46,8 @@ def profile(request):
     username = get_user.username
     login_form = UserLoginForm(request.POST or None)
     if get_user.is_authenticated:
-        return render(request,'signin/profile.html',{'name':username})
+        post = Post.objects.all()
+        return render(request, "signin/profile.html", {'username':username,'post':post})
     else:
         message='message'
         print(message)
