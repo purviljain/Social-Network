@@ -1,53 +1,70 @@
 {% extends "base.html" %}
 {% block content %}
-<div style="text-align:center" >
+<div class="container" style="margin-top:-20px;">
+<div  class="card" >
 	{% if user.is_authenticated %}
-			<div class="display-4">Hello, {{ user.username }}</div>
-			<div style="text-align:right"><a  href="{% url 'app:create' %}"><button>POST</button></a></div>
-			<div style=""><h4> Your Posts </h4></div>
+			<div class="card-header" style="text-align:center;"><h2>Hello, {{ user.username }}</h2>
+			
+			<div style=""><a  href="{% url 'app:create' %}"><button class="btn btn-dark">POST</button></a></div>
+		</div><br>
+			<div style="text-align:center;"><h4> Your Posts </h4></div>
+			<div class="row">
 			{% for i in post %}
 				{% if i.user == request.user %}
-				<hr>
-	      {% if i.post_pic %}
-	      <img src="{{ i.post_pic.url }}" style="max-height:250; height: expression(this.width > 250 ? 250: true); max-width:250px;width: expression(this.width > 250 ? 250: true);"/> <br>
-	      {% endif %}
-	      <i><b>Caption:</b> {{ i.caption }}</i><br>
-	      <i><b>User:</b> {{ i.user }}</i><br>
-	      <i><b>Date:</b> {{ i.date_created }}</i><br>
-	      {% if i.user == user %}
-	        <a href="{% url 'app:delete' i.id %}"><button>Delete</button></a>
-	      {% endif %}
-	      <a href="{% url 'app:comment' i.id %}"><button>Comment</button></a>
-	      <form method="POST" action="{% url 'app:like' i.id %}">
-	        {% csrf_token %}
-	        <button type="submit">Like</button>
-	        {% for l in i.likes.all %}
-	          {% if l.user == request.user %}
-	          {% endif %}
-	        {% endfor %}
-	      </form>
-	      <input type="button" class="btn btn-link" data-target="#{{ i.id }}" >Likes {{ i.likes.count }} </input>
-	      <button type="submit" class="btn btn-link" data-toggle="collapse" data-target="#{{ i.id }}" >Comments {{ i.comments.count }}</button>
-	        <div id="{{ i.id }}" class="collapse">
-	          <div id="comment" class="container">
-	            {% for c in i.comments.all %}
-	                <hr>
-	                <i>User: {{ c.user }}</i>
-	                <p>TEXT: {{ c.comment }}</p>
-	                {% if c.user == user %}
-	                  <a href="{% url 'app:comment_delete' c.id %}">Delete</a>
-	                {% endif %}
-	                <hr>
-	            {% endfor %}
-	          </div>
-	        </div>
-	      <hr>
+				
+					<div class="col-md-4">
+						{% if i.post_pic %}
+						<img style="height:200px;width:310px;" src="{{ i.post_pic.url }}" style="max-height:250; height: expression(this.width > 250 ? 250: true); max-width:250px;width: expression(this.width > 250 ? 250: true);"/> <br>
+						{% endif %}
+						
+						<blockquote>
+							<p ><b>Caption:</b> {{ i.caption }}<br></p>
+							<footer>
+								<p><b>Posted:</b> {{ i.date_created }}<br></p>
+							</footer>
+						</blockquote>
+						
+						<!-- <p><b>User:</b> {{ i.user }}<br></p> -->
+						
+						<form method="POST" action="{% url 'app:like' i.id %}">
+							{% csrf_token %}
+							<button type="submit" class="btn btn-outline-info btn-sm"><i class="fas fa-thumbs-up"></i></button>
+							{% for l in i.likes.all %}
+								{% if l.user == request.user %}
+								{% endif %}
+							{% endfor %}
+							{% if i.user == user %}
+							<a href="{% url 'app:delete' i.id %}"><button class="btn btn-outline-danger btn-sm"><i class="fas fa-trash-alt"></i></button></a>
+						{% endif %}
+						<a href="{% url 'app:comment' i.id %}"><button class="btn btn-sm btn-outline-warning"><i class="fas fa-comments"></i></button></a>
+						
+						</form>
+						<br>
+						<input type="button" class="btn btn-link" data-target="#{{ i.id }}" ><span class="text-dark">Likes </span><span class="badge"> {{ i.likes.count }}</span> </input>
+						&nbsp;<button type="submit" class="btn btn-outline-primary btn-sm" data-toggle="collapse" data-target="#{{ i.id }}" >Comments  <span class="badge badge-light" >  {{ i.comments.count }}</span></button>
+							<div id="{{ i.id }}" class="collapse">
+								<div id="comment" class="container">
+									{% for c in i.comments.all %}
+											<hr>
+											<i>User: {{ c.user }}</i>
+											<p>TEXT: {{ c.comment }}</p>
+											{% if c.user == user %}
+												<a href="{% url 'app:comment_delete' c.id %}">Delete</a>
+											{% endif %}
+											<hr>
+									{% endfor %}
+								</div>
+							</div>
+					</div>
+			
+	      
 				{% endif %}
 			{% endfor %}
-
+		</div>
 	{% else %}
 			<a class="lead" href="{% url 'login' %}">Log in</a>
   {% endif %}
 
+</div>
 </div>
 {% endblock content %}
