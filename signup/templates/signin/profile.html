@@ -4,41 +4,41 @@
 <div  class="card" >
 	{% if user.is_authenticated %}
 			<div class="card-header" style="text-align:center;"><h2>Hello, {{ user.username }}</h2>
-			
+
 			<div style=""><a  href="{% url 'app:create' %}"><button class="btn btn-dark">POST</button></a></div>
 		</div><br>
 			<div style="text-align:center;"><h4> Your Posts </h4></div>
 			<div class="row">
 			{% for i in post %}
 				{% if i.user == request.user %}
-				
+
 					<div class="col-md-4">
 						{% if i.post_pic %}
 						<img style="height:200px;width:310px;" src="{{ i.post_pic.url }}" style="max-height:250; height: expression(this.width > 250 ? 250: true); max-width:250px;width: expression(this.width > 250 ? 250: true);"/> <br>
 						{% endif %}
-						
+
 						<blockquote>
 							<p ><b>Caption:</b> {{ i.caption }}<br></p>
 							<footer>
 								<p><b>Posted:</b> {{ i.date_created }}<br></p>
 							</footer>
 						</blockquote>
-						
+
 						<!-- <p><b>User:</b> {{ i.user }}<br></p> -->
-						
-						<form method="POST" action="{% url 'app:like' i.id %}">
-							{% csrf_token %}
-							<button type="submit" class="btn btn-outline-info btn-sm"><i class="fas fa-thumbs-up"></i></button>
-							{% for l in i.likes.all %}
+
+						<!-- <form method="POST" action="{% url 'app:like' i.id %}">
+							{% csrf_token %} -->
+							<a href="{% url 'app:like' i.id %}"><button type="submit" class="btn btn-outline-info btn-sm"><i class="fas fa-thumbs-up"></i></button></a>
+							<!-- {% for l in i.likes.all %}
 								{% if l.user == request.user %}
 								{% endif %}
-							{% endfor %}
+							{% endfor %} -->
 							{% if i.user == user %}
 							<a href="{% url 'app:delete' i.id %}"><button class="btn btn-outline-danger btn-sm"><i class="fas fa-trash-alt"></i></button></a>
 						{% endif %}
 						<a href="{% url 'app:comment' i.id %}"><button class="btn btn-sm btn-outline-warning"><i class="fas fa-comments"></i></button></a>
-						
-						</form>
+
+						<!-- </form> -->
 						<br>
 						<input type="button" class="btn btn-link" data-target="#{{ i.id }}" ><span class="text-dark">Likes </span><span class="badge"> {{ i.likes.count }}</span> </input>
 						&nbsp;<button type="submit" class="btn btn-outline-primary btn-sm" data-toggle="collapse" data-target="#{{ i.id }}" >Comments  <span class="badge badge-light" >  {{ i.comments.count }}</span></button>
@@ -56,8 +56,8 @@
 								</div>
 							</div>
 					</div>
-			
-	      
+
+
 				{% endif %}
 			{% endfor %}
 		</div>

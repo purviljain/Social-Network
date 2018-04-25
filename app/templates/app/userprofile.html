@@ -13,7 +13,7 @@
   {% if follow %}
     {% for i in follow %}
       {% if i.user == user %}
-        <b>{{ i.followers.all }}</b>
+        <b>{{ i.followers.all }}</b><br>
       {% endif %}
     {% endfor %}
   {% endif %}
@@ -27,18 +27,11 @@
   <i><b>Caption:</b> {{ i.caption }}</i><br>
   <i><b>User:</b> {{ i.user }}</i><br>
   <i><b>Date:</b> {{ i.date_created }}</i><br>
+  <a href="{% url 'app:like' i.id %}"><button type="submit">Like</button>
   {% if i.user == request.user %}
     <a href="{% url 'app:delete' i.id %}"><button>Delete</button></a>
   {% endif %}
   <a href="{% url 'app:comment' i.id %}"><button>Comment</button></a>
-  <form method="POST" action="{% url 'app:like' i.id %}">
-    {% csrf_token %}
-    <button type="submit">Like</button>
-    {% for l in i.likes.all %}
-      {% if l.user == request.user %}
-      {% endif %}
-    {% endfor %}
-  </form>
   <input type="button" class="btn btn-link" data-target="#{{ i.id }}" >Likes {{ i.likes.count }} </input>
   <button type="submit" class="btn btn-link" data-toggle="collapse" data-target="#{{ i.id }}" >Comments {{ i.comments.count }}</button>
     <div id="{{ i.id }}" class="collapse">

@@ -134,29 +134,11 @@ def CommentDelete(request,pk):
 
 @login_required(login_url='forum:login')
 def like(request, pk):
-    if request.method == 'POST':
-        post = Post.objects.get(id=pk)
-        user = request.user
-        like = Like.objects.filter(user=user, post=post)
-        if like.exists():
-            # like.delete()
-            post=Post.objects.all()
-            app = []
-            for p in post:
-                if Follower.objects.filter(user=p.user):
-                    temp = Follower.objects.get(user=p.user)
-                    if temp:
-                        qs = temp.followers.all()
-                        print(qs)
-                        for i in qs:
-                            if i == request.user:
-                                app.append(p)
-                if p.user == request.user:
-                    app.append(p)
-            return render(request,'app/index.html',{'follow':temp,'app':app})
-        like = Like.objects.create(user=user, post=post)
-        like.save()
-        like = Like.objects.get(user=user, post=post)
+    post = Post.objects.get(id=pk)
+    user = request.user
+    like = Like.objects.filter(user=user, post=post)
+    if like.exists():
+        # like.delete()
         post=Post.objects.all()
         app = []
         for p in post:
@@ -171,6 +153,23 @@ def like(request, pk):
             if p.user == request.user:
                 app.append(p)
         return render(request,'app/index.html',{'follow':temp,'app':app})
+    like = Like.objects.create(user=user, post=post)
+    like.save()
+    like = Like.objects.get(user=user, post=post)
+    post=Post.objects.all()
+    app = []
+    for p in post:
+        if Follower.objects.filter(user=p.user):
+            temp = Follower.objects.get(user=p.user)
+            if temp:
+                qs = temp.followers.all()
+                print(qs)
+                for i in qs:
+                    if i == request.user:
+                        app.append(p)
+        if p.user == request.user:
+            app.append(p)
+    return render(request,'app/index.html',{'follow':temp,'app':app})
     # like = get_object_or_404(Like, pk=pk)
     # app = Post.objects.all()
     # return render(request,'app/index.html',{'app':app})

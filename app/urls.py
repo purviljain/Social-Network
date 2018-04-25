@@ -1,14 +1,6 @@
 from django.conf.urls import url
-from .views import (PostCreate,
-                    PostDelete,
-                    PostList,
-                    comment_to_post,
-                    CommentDelete,
-                    like,
-                    )
-
+from .views import (PostCreate,PostDelete,PostList,comment_to_post,CommentDelete,like,)
 app_name = "app"
-
 urlpatterns = [
     url(r'^create/$', PostCreate, name="create"),
     url(r'^delete/(?P<pk>\d+)/$', PostDelete, name="delete"),
